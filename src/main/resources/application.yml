@@ -47,7 +47,7 @@ spring:
     gateway:
       filter:
         secure-headers:
-          frame-options: ${SECURE_HEADERS_FRAME_OPTIONS:allow-from http://hzeronf.saas.hand-china.com}
+          frame-options: ${SECURE_HEADERS_FRAME_OPTIONS:allow-from http://dev.hzero.org}
       discovery:
         locator:
           enabled: true
@@ -77,22 +77,10 @@ spring:
         - Path=/oauth/**
         filters:
         - PreserveHostHeader
-      - id: hcnf
-        uri: lb://hzero-config
-        predicates:
-        - Path=/hcnf/**
-        filters:
-        - StripPrefix=1
       - id: hwgr
         uri: lb://hzero-swagger
         predicates:
         - Path=/swagger/**
-        filters:
-        - StripPrefix=1
-      - id: hagd
-        uri: lb://hzero-asgard
-        predicates:
-        - Path=/hagd/**
         filters:
         - StripPrefix=1
       - id: hpfm
@@ -125,57 +113,16 @@ spring:
         - Path=/himp/**
         filters:
         - StripPrefix=1
-#      - id: hitf
-#        uri: lb://hzero-interface
-#        predicates:
-#        - Path=/hitf/**
-#        filters:
-#        - StripPrefix=1
-#        - name: RequestRateLimiter
-#          args:
-#            redis-rate-limiter.replenishRate: 100
-#            redis-rate-limiter.burstCapacity: 100
-#            redis-rate-limiter.replenishRateMap."url.v1.rest.invoke._namespace-test_serverCode-test_interfaceCode-testrole1": 1
-#            redis-rate-limiter.burstCapacityMap."url.v1.rest.invoke._namespace-test_serverCode-test_interfaceCode-testrole1": 1
-#            rate-limiter: "#{@enhancedRedisRateLimiter}"
-            #key-resolver: "#{@userKeyResolver}"
-#            key-resolver: "#{
-#            new org.hzero.gateway.ratelimit.dimension.CombinedKeyResolver(
-#              new org.hzero.gateway.ratelimit.dimension.UrlKeyResolver(\"/v1/{1}/invoke?namespace={2}&serverCode={3}&interfaceCode={4}\"),
-#              new org.hzero.gateway.ratelimit.dimension.RoleKeyResolver()
-#            )}"
-      - id: hdtt
-        uri: lb://hzero-transfer
-        predicates:
-        - Path=/hdtt/**
-        filters:
-        - StripPrefix=1
       - id: hrpt
         uri: lb://hzero-report
         predicates:
         - Path=/hrpt/**
         filters:
         - StripPrefix=1
-      - id: hwfp
-        uri: lb://hzero-workflow-plus
-        predicates:
-        - Path=/hwfp/**
-        filters:
-        - StripPrefix=1
-      - id: hpay
-        uri: lb://hzero-pay
-        predicates:
-        - Path=/hpay/**
-        filters:
-        - StripPrefix=1
       - id: hadm
         uri: lb://hzero-admin
         predicates:
         - Path=/hadm/**
-      - id: hap
-        uri: lb://hzero-hap
-        predicates:
-        - Path=/hap/**
       # 开启主键加密 可选值 encrypt（主键加密）、to_string（主键变字符串类型）、do_nothing（关闭加密）
       default-filters:
       - SetRequestHeader=H-Request-Encrypt, ${HZERO_REQUEST_ENCRYPT_MODE:encrypt}
@@ -271,29 +218,14 @@ hzero:
         cache-size: 3000  # 请求地址和对应的权限缓存大小
         skip-paths:
           - /oauth/**
-          - /hap/lib/**
-          - /hap/static/**
-          - /hap/resources/**
-          - /hap/editor-app/**
           - /swagger/swagger-ui.html
           - /swagger/swagger-resources/**
           - /swagger/webjars/**
           - /swagger/docs/**
-          - /hwfp/editor-app/**
-          - /hwfp/lib/**
-          - /hwfp/activiti-editor
           - /*/sock-js/**
           - /*/websocket/**
           - /maintain
           - /actuator/**
-          - /hexl/lib/**
-          - /hexl-*/lib/**
-          - /hadm
-          - /hadm/
-          - /hadm/applications
-          - /hadm/notifications/filters
-          - /hadm/instances/**
-          - /hadm/assets/**
           - /hims/lib/**
           - /hfle/lib/**
           - /*/lib/**
